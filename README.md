@@ -126,19 +126,25 @@ exchanges it for a Claude access token that lasts a few minutes. No Claude key i
    click **Connect workload**, and pick **GitHub Actions**. The wizard creates three things:
    - a **federation issuer** for `https://token.actions.githubusercontent.com` (discovery mode)
    - a **service account** (the identity the job runs as; usage is billed to its workspace)
-   - a **federation rule** that decides which workflow runs are trusted. Keep it narrow:
+   - a **federation rule** that decides which workflow runs are trusted. Keep it narrow
+     (set these under **Advanced match options**):
 
-     ```json
-     "match": {
-       "subject_prefix": "repo:<owner>/helpdesk-agent:ref:refs/heads/main",
-       "audience": "https://api.anthropic.com",
-       "claims": { "repository_owner": "<owner>" }
-     },
-     "oauth_scope": "workspace:developer"
+     ```text
+     Subject pattern:   repo:<owner>@<owner_id>/helpdesk-agent@<repo_id>:ref:refs/heads/main
+     Claims:            repository_owner = <owner>
+                        repository_id    = <repo_id>
+                        event_name       = workflow_dispatch
+                        ref              = refs/heads/main
+     Expected audience: https://api.anthropic.com
      ```
 
-     This allows only runs on `main` of this one repo. A manual run from another branch,
-     or any pull-request run, is rejected.
+     This allows only manual runs on `main` of this one repo. Other branches, pushes and
+     pull-request runs are rejected.
+
+     **Check your subject format.** Newer repos use GitHub's *immutable* subject, which
+     contains numeric IDs (`repo:owner@123/name@456:...`), and the wizard may prefill the
+     older `repo:owner/name:*` form, which won't match. Find yours with
+     `gh api repos/<owner>/<repo>/actions/oidc/customization/sub` (see `sub_claim_prefix`).
 2. **In GitHub:** go to Settings, Secrets and variables, Actions, **Variables** (not Secrets;
    these are IDs, not credentials) and add:
    - `ANTHROPIC_FEDERATION_RULE_ID`: `fdrl_...`
