@@ -1,0 +1,46 @@
+[project]
+name = "helpdesk-agent"
+version = "0.1.0"
+description = "Learning demo: LangGraph IT-helpdesk triage agent using tools from an MCP server."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "langgraph==1.2.16",
+    "langchain-core==1.7.0",
+    "langchain-anthropic==1.7.6",
+    # langchain-mcp-adapters 0.3.2 requires mcp<2.0, so we pin the last 1.x release.
+    "mcp[cli]==1.29.1",
+    "langchain-mcp-adapters==0.3.2",
+    "fastembed==0.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "ruff==0.17.2",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+# Two top-level packages in the repo root, installed (editable) into .venv by `uv sync`.
+module-name = ["agent", "mcp_server"]
+module-root = ""
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+# Also put the repo root on sys.path, in case macOS hides the editable-install .pth file.
+pythonpath = ["."]
+markers = ["live: calls the real Anthropic API (needs ANTHROPIC_API_KEY)"]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

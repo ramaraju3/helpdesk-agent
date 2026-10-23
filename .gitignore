@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+mcp_server/data/helpdesk.db
+.env
+.fastembed_cache/
+.DS_Store

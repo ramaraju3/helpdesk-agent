@@ -1,0 +1,41 @@
+{
+  "kb_articles": [
+    {"id": "KB-001", "category": "hardware", "title": "Printer shows offline",
+     "body": "1. Check the printer is powered on and has no error on its panel. 2. Confirm it is on the office network (print a network config page). 3. On your laptop, remove and re-add the printer from Settings > Printers. 4. If several people are affected, the print server may need a restart: escalate to Facilities IT."},
+    {"id": "KB-002", "category": "hardware", "title": "Laptop will not charge",
+     "body": "Try a different outlet and a known-good charger. Hold the power button for 15 seconds to reset the power controller. If the battery icon shows 'service recommended', request a battery replacement."},
+    {"id": "KB-003", "category": "network", "title": "Cannot connect to office Wi-Fi",
+     "body": "Forget the 'Corp-WiFi' network and reconnect using your SSO credentials. Make sure your device certificate is not expired (Settings > Device Management). Guests should use 'Corp-Guest' instead."},
+    {"id": "KB-004", "category": "network", "title": "VPN connects but no internal sites load",
+     "body": "Disconnect and reconnect the VPN client. Flush DNS (macOS: sudo dscacheutil -flushcache). If internal sites still fail, check the status page for a VPN gateway incident."},
+    {"id": "KB-005", "category": "account", "title": "Password reset",
+     "body": "Use the self-service portal at id.example.com/reset. You will need your registered MFA device. Passwords must be 14+ characters and cannot reuse your last 5 passwords."},
+    {"id": "KB-006", "category": "account", "title": "Locked out after too many MFA attempts",
+     "body": "Accounts unlock automatically after 30 minutes. If you need access sooner, the helpdesk can unlock you after verifying your identity over a video call."},
+    {"id": "KB-007", "category": "software", "title": "Requesting a software install",
+     "body": "Install approved apps from the Self Service app. For software not in the catalog, open a request with the business justification; licensing approval takes 2-3 business days."},
+    {"id": "KB-008", "category": "software", "title": "Email client not syncing",
+     "body": "Quit and reopen the mail client. Check you have free disk space. Remove and re-add the account if sync is stuck for more than an hour. Webmail still works during client issues."},
+    {"id": "KB-009", "category": "security", "title": "Reporting a phishing email",
+     "body": "Do not click links or open attachments. Use the 'Report Phishing' button in your mail client. If you already entered your password, reset it immediately and tell the security team: this is high severity."},
+    {"id": "KB-010", "category": "security", "title": "Lost or stolen laptop",
+     "body": "Report it to the security team immediately so the device can be remotely locked and wiped. File a police report for stolen devices. This is always high severity."}
+  ],
+  "tickets": [
+    {"id": "T-1001", "category": "hardware", "severity": "medium", "status": "resolved", "title": "3rd floor printer offline", "description": "The HP printer near the 3rd floor kitchen shows offline for everyone.", "notes": ["Print server restarted by Facilities IT; resolved."]},
+    {"id": "T-1002", "category": "hardware", "severity": "low", "status": "resolved", "title": "Printer offline on my laptop only", "description": "Others can print but my laptop says the printer is offline.", "notes": ["Removed and re-added the printer (KB-001 step 3); resolved."]},
+    {"id": "T-1003", "category": "hardware", "severity": "low", "status": "open", "title": "Laptop not charging", "description": "MacBook stopped charging this morning.", "notes": []},
+    {"id": "T-1004", "category": "network", "severity": "medium", "status": "resolved", "title": "Wi-Fi keeps dropping", "description": "Corp-WiFi disconnects every few minutes in conference room B.", "notes": ["Device certificate had expired; renewed."]},
+    {"id": "T-1005", "category": "network", "severity": "high", "status": "resolved", "title": "VPN down for remote staff", "description": "Nobody working remotely can reach internal sites.", "notes": ["VPN gateway incident; network on-call failed over to the backup gateway."]},
+    {"id": "T-1006", "category": "network", "severity": "low", "status": "open", "title": "Slow internal wiki over VPN", "description": "Wiki pages take 10+ seconds to load on VPN.", "notes": []},
+    {"id": "T-1007", "category": "account", "severity": "low", "status": "resolved", "title": "Forgot password", "description": "I forgot my password after vacation.", "notes": ["Pointed user to self-service reset (KB-005)."]},
+    {"id": "T-1008", "category": "account", "severity": "medium", "status": "resolved", "title": "Locked out before client demo", "description": "Locked out after MFA attempts, demo in 10 minutes.", "notes": ["Identity verified on video call, account unlocked (KB-006)."]},
+    {"id": "T-1009", "category": "account", "severity": "low", "status": "open", "title": "New hire cannot log in", "description": "New hire's account says 'not yet active'.", "notes": []},
+    {"id": "T-1010", "category": "software", "severity": "low", "status": "resolved", "title": "Need Figma installed", "description": "Requesting Figma for the design team.", "notes": ["Installed from Self Service (KB-007)."]},
+    {"id": "T-1011", "category": "software", "severity": "medium", "status": "resolved", "title": "Outlook not syncing", "description": "No new email since yesterday in Outlook; webmail works.", "notes": ["Disk was full; freed space and re-added account (KB-008)."]},
+    {"id": "T-1012", "category": "software", "severity": "low", "status": "open", "title": "License for data tool", "description": "Need a license for a tool not in Self Service.", "notes": []},
+    {"id": "T-1013", "category": "security", "severity": "high", "status": "resolved", "title": "Clicked phishing link", "description": "I clicked a link in a fake invoice email and entered my password.", "notes": ["Password reset, sessions revoked, security team notified (KB-009)."]},
+    {"id": "T-1014", "category": "security", "severity": "high", "status": "resolved", "title": "Laptop stolen from car", "description": "Work laptop stolen overnight.", "notes": ["Device locked and wiped remotely (KB-010)."]},
+    {"id": "T-1015", "category": "security", "severity": "medium", "status": "open", "title": "Suspicious email", "description": "Got an email asking me to buy gift cards for the CEO. Did not reply.", "notes": []}
+  ]
+}
