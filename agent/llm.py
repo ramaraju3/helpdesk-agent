@@ -1,11 +1,13 @@
-"""Pick the chat model: real Claude if credentials are configured, otherwise the fake.
+"""Pick the chat model: real Claude if the Anthropic SDK finds credentials, else the fake.
 
-Two ways to give the agent Claude credentials:
-- ANTHROPIC_API_KEY: a static key (simplest, for local dev).
+Ways to give the agent Claude credentials (the SDK checks them in this order):
+- ANTHROPIC_API_KEY: a static key.
+- ANTHROPIC_AUTH_TOKEN, or a login profile from `ant auth login` (browser login,
+  short-lived tokens, no key to copy around). Best for your own laptop.
 - Workload Identity Federation (WIF): ANTHROPIC_FEDERATION_RULE_ID plus the other
-  ANTHROPIC_* federation variables. The workload (e.g. a GitHub Actions run) swaps
-  a short-lived identity token from its own identity provider for a short-lived
-  Claude token, so there's no long-lived secret to store or rotate.
+  ANTHROPIC_* federation variables. For workloads that have their own identity,
+  like a GitHub Actions run: it swaps a short-lived token from its identity provider
+  for a short-lived Claude token, so there's no secret to store or rotate.
 """
 
 import os
@@ -21,9 +23,9 @@ DEFAULT_MODEL = "claude-opus-5-5"
 
 
 def has_claude_credentials() -> bool:
-    return bool(
-        os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_FEDERATION_RULE_ID")
-    )
+    """Ask the SDK whether it found any credentials. Builds a client; makes no request."""
+    client = anthropic.Anthropic()
+    return bool(client.api_key or client.auth_token or client.credentials)
 
 
 class SDKAuthChatAnthropic(ChatAnthropic):

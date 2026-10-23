@@ -48,7 +48,7 @@ async def main() -> None:
     args = parser.parse_args()
 
     model = make_model(args.issue)
-    print(f"Model: {getattr(model, 'model', 'scripted fake (no ANTHROPIC_API_KEY set)')}")
+    print(f"Model: {getattr(model, 'model', 'scripted fake (no Claude credentials found)')}")
 
     async with helpdesk_mcp() as (session, tools):
         app = build_graph(model, session, tools, checkpointer=InMemorySaver())

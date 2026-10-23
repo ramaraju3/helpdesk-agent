@@ -62,7 +62,7 @@ checkpointer, and it resumes when a person answers.
 | `agent/state.py` | Typed graph state (`TicketState`) and the `Classification` schema |
 | `agent/graph.py` | The graph: nodes, conditional edges, interrupt |
 | `agent/mcp_client.py` | Starts the MCP server over stdio and loads its tools as LangChain tools |
-| `agent/llm.py` | Uses Claude if credentials are set (API key or Workload Identity Federation), otherwise the fake model |
+| `agent/llm.py` | Uses Claude if the SDK finds credentials (login profile, API key or federation), otherwise the fake model |
 | `agent/fake_model.py` | `ScriptedChatModel`: returns pre-written messages in order |
 | `agent/__main__.py` | The CLI |
 | `tests/` | MCP unit tests, RAG tests and retrieval eval, end-to-end graph tests, one opt-in live test |
@@ -82,11 +82,17 @@ uv run ruff check . && uv run ruff format --check .
 uv run python -m agent "printer on 3rd floor offline" --ticket T-1003
 uv run python -m agent "my laptop was stolen"        # high severity -> escalate path
 
-# CLI with Claude
-export ANTHROPIC_API_KEY=sk-ant-...
+# CLI with Claude: log in once in the browser (no key to copy or store)
+ant auth login                            # Anthropic CLI: brew install anthropics/tap/ant
 uv run python -m agent "printer on 3rd floor offline"
 uv run pytest -m live                     # the one live smoke test
 ```
+
+The agent uses real Claude whenever the Anthropic SDK finds credentials, checked in
+this order: `ANTHROPIC_API_KEY`, `ANTHROPIC_AUTH_TOKEN`, an `ant auth login` profile,
+then Workload Identity Federation. With none of them, it uses the scripted fake.
+Federation is for CI and servers, which have their own identity; a laptop uses the
+browser login (or an API key).
 
 The CLI prints each node as it runs, pauses at `human_approval`, and asks
 `[a]pprove, [e]dit, [r]eject?`. It then resumes the same run from its checkpoint.
