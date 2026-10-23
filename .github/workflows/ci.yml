@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.2 # this action publishes exact tags only, no moving "v10"
         with:
           version: "0.13.5"
           enable-cache: true
@@ -55,7 +55,7 @@ jobs:
       ANTHROPIC_IDENTITY_TOKEN_FILE: /tmp/gha-oidc.jwt
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.2 # this action publishes exact tags only, no moving "v10"
         with:
           version: "0.13.5"
           enable-cache: true
